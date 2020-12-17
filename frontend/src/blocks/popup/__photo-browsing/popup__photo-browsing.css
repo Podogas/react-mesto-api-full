@@ -1,0 +1,19 @@
+.popup__photo-browsing  {
+  position: fixed;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility .2s, opacity .5s, height .5s .5s linear;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+  height:0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+}

@@ -1,0 +1,59 @@
+@import url('./__image-wrap/element__image-wrap.css');
+@import url('./__image/element__image.css');
+@import url('./__caption/element__caption.css');
+@import url('./__like-button/element__like-button.css');
+@import url('./__trash-can/element__trash-can.css');
+@import url('./__like-wrapper/element__like-wrapper.css');
+@import url(./__like-button/_liked/element__like-button_liked.css);
+@import url('./__like-counter/element__like-counter.css');
+.element  {
+  position: relative;
+  width: 32.046%;
+  margin-right: calc(3.85% / 2);
+  margin-bottom: 21px;
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  overflow: hidden;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-align-items: center;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.element:nth-child(3n) {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 1120px) {
+  .element  {
+  min-width: 49.01%;
+  margin-right: calc(3.931% / 2);
+  margin-bottom: 20px;
+}
+.element:nth-child(3n) {
+  margin-right: calc(3.931% / 2);
+}
+.element:nth-child(2n) {
+  margin-right: 0;
+}
+}
+
+
+@media screen and (max-width: 705px) {
+  .element  {
+  min-width: 100%;
+  margin-right: 0;
+  margin-bottom: 22px;
+}
+ 
+}

@@ -1,0 +1,25 @@
+.authForm__input-item {
+  font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+  color: #CCCCCC;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-bottom: 2px solid #CCCCCC;
+  font-size: 14px;
+  line-height: 1.21;
+  padding-bottom: 9px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  outline: none;
+  background-color: #000000;
+}
+.authForm__input-item::placeholder {
+  color: #CCCCCC;
+}
+
+@media screen and (max-width: 630px) {
+  .authForm__input-item {
+    font-size: 10px;
+  }
+}

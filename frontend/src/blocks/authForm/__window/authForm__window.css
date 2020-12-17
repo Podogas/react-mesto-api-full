@@ -1,0 +1,10 @@
+.authForm__window {
+  color: #FFFFFF;
+  width: 358px;
+}
+
+@media screen and (max-width: 630px) {
+  .authForm__window {
+    max-width: 68.47%;
+  }
+}

@@ -1,0 +1,18 @@
+.header__logo   {
+  display: inline-block;
+  background: url('../../../images/logo.svg') no-repeat;
+  background-size: contain;
+  width: 11.18vw;
+  max-width: 162px;
+  min-width: 104px;
+  height: 2.66vw;
+  max-height: 52px;
+  min-height: 25px;
+  
+}
+
+@media screen and (max-width:354px) {
+  .header__logo  {
+    margin-left: 27px;
+  }
+}

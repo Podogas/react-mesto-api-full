@@ -1,0 +1,13 @@
+.header__email {
+  display: inline-block;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.2;
+  margin-top: 6px;
+  margin-right: 24px;
+}
+.header__email:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}

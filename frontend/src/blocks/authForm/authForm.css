@@ -1,0 +1,22 @@
+@import url('./__heading/authForm__heading.css');
+@import url('./__input-container/authForm__input-container.css');
+@import url('./__input-item/authForm__input-item.css');
+@import url('./__window/authForm__window.css');
+@import url('./__submit-btn/authForm__submit-btn.css');
+@import url('./__caption-link/authForm__caption-link.css');
+@import url('./__input-error-message/authForm__input-error-message.css');
+
+.authForm {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  z-index: 1;
+  transition: visibility 0.5s, opacity 0.5s, height 0.5s 0.5s linear;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}

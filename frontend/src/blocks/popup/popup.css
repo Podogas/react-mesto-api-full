@@ -1,0 +1,38 @@
+@import url('./__heading/popup__heading.css');
+@import url('./__close-btn/popup__close-btn.css');
+@import url('./__input-container/popup__input-container.css');
+@import url('./__input-item/popup__input-item.css');
+@import url('./__input-item/_invalid/popup__input-item_invalid.css');
+@import url('./__window/popup__window.css');
+@import url('./__submit-btn/popup__submit-btn.css');
+@import url('./__input-error-message/popup__input-error-message.css');
+@import url('./__submit-btn/_blocked/popup__submit-btn_blocked.css');
+@import url('./__photo-browsing/popup__photo-browsing.css');
+@import url('./__window/_photo-browsing/popup__window_photo-browsing.css');
+@import url('./__close-btn/_photo-browsing/popup__close-btn_photo-browsing.css');
+@import url('./__image/popup__image-photo-browsing.css');
+@import url('./__caption/popup__caption-photo-browsing.css');
+@import url('./__heading/_confirm-deletion/popup__heading_confirm-deletion.css');
+@import url('./__signStatus/popup__signStatus-image.css');
+@import url('./__signStatus/popup__signStatus-caption.css');
+
+.popup  {
+ display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1;
+  transition: visibility .5s, opacity .5s, height .5s .5s linear;
+  position: fixed;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+  height:0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+}

@@ -1,0 +1,3 @@
+.popup__input-item_invalid {
+  border-bottom: 1px solid red;
+}

@@ -1,0 +1,11 @@
+.element__image-wrap {
+  position: relative;
+  width: 100%;
+  
+}
+.element__image-wrap::after {
+  /* честно украл решение со стековерфлоу, надо разобраться с этой магией */
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}

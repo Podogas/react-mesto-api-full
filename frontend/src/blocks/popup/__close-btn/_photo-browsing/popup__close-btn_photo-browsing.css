@@ -1,0 +1,32 @@
+.popup__close-btn_photo-browsing  {
+  position: absolute;
+  top: 0;
+  padding: 0;
+  border: none;
+  right: 0;
+  transform: translate(100%,-100%);
+  width: 40px;
+  height: 40px;
+  background: url('../../../../images/close-icon.svg') no-repeat ;
+  background-size: cover;
+  outline: none;
+  transition: opacity linear .1s;
+}
+.popup__close-btn_photo-browsing:hover  {
+  opacity: .6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 630px) {
+.popup__close-btn_photo-browsing {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media screen and (max-width: 466px) {
+.popup__close-btn_photo-browsing {
+    width: 14px;
+    height: 14px;
+  }
+}

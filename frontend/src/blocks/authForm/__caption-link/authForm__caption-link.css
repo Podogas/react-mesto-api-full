@@ -1,0 +1,15 @@
+.authForm__caption-link {
+  display: block;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  min-height: 16px;
+  margin-top: 15px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.authForm__caption-link:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
