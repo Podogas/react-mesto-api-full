@@ -76,7 +76,7 @@ class Api {
 }
 
 const mestoApi = new Api({
-  baseUrl: "https://https://api.podogas.students.nomoreparties.space",
+  baseUrl: "https://api.podogas.students.nomoreparties.space",
   headers: {
     "Content-Type": "application/json",
   },
