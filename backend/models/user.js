@@ -50,18 +50,21 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .select("+password")
     .then((user) => {
       if (!user) {
+        console.log(12312312321)
         return Promise.reject(
           new UnauthorizedError("Неправильные почта или пароль")
-        );
+        )
+        .catch();
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return Promise.reject(
             new UnauthorizedError("Неправильные почта или пароль")
-          );
+          ).catch()
         }
-        return user;
+        return user
+        ;
       });
     });
 };

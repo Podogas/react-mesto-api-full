@@ -22,16 +22,25 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+app.use(cors());
 app.use(requestLogger);
+app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
 app.use(cors());
 app.use("/", authRoutes);
+app.use(cors());
 // ниже вызываем роуты защищенные авторизацией
+app.use(cors());
 app.use(auth);
+app.use(cors());
 app.use("/", usersRoutes);
+app.use(cors());
 app.use("/", cardsRoutes);
+app.use(cors());
 app.use(errorLogger);
+app.use(cors());
 app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
