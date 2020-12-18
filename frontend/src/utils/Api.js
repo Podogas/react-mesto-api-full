@@ -76,9 +76,8 @@ class Api {
 }
 
 const mestoApi = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-15",
+  baseUrl: "https://https://api.podogas.students.nomoreparties.space",
   headers: {
-    authorization: "d7f02613-0750-4057-8234-33e0d676e4d9",
     "Content-Type": "application/json",
   },
 });

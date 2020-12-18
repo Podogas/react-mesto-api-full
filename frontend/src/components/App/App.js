@@ -49,7 +49,8 @@ function App() {
   // проверка токена
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    console.log("check token")
+    if (jwt) { console.log(jwt)
       auth
         .getToken(jwt)
         .then((res) => {

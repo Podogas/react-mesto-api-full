@@ -1,7 +1,8 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = "https://api.podogas.students.nomoreparties.space";
 
 // получение токена
-export const getToken = (token) =>
+export const getToken = (token) => 
+
   fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
@@ -18,6 +19,7 @@ export const getToken = (token) =>
       return res.json();
     })
     .then((data) => data);
+  
 // регистрация
 export const signUp = (password, email) =>
   fetch(`${BASE_URL}/signup`, {
