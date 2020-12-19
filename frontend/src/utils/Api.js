@@ -100,7 +100,7 @@ class Api {
 
       return res.json();
     })
-    .then((data) => data)
+    .then((data) => {return data})
 }  
 // регистрация
 signUp(password, email){
@@ -119,11 +119,13 @@ signUp(password, email){
         throw new Error(err.message);
       });
     }
-    return res.json();
+    console.log(res)
+    return res;
   });
 }
 // авторизация
 signIn(password, email) {
+  console.log(JSON.stringify({ password, email }))
   fetch(`${this._url}/signin`, {
     method: "POST",
     headers: {
@@ -132,12 +134,13 @@ signIn(password, email) {
     body: JSON.stringify({ password, email }),
   })
     .then((res) => {
+
       if (res.status === 400) {
         throw new Error("Не передано одно из полей");
       } else if (res.status === 401) {
         throw new Error("Пользователь с таким email не найден");
       }
-      return res.json();
+      return res;
     })
     .then((data) => {
       if (data.token) {

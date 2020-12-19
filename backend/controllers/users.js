@@ -24,6 +24,7 @@ module.exports.getUserById = (req, res, next) => {
 };
 module.exports.createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
+  console.log(name, about, avatar, email, password )
   bcrypt
     .hash(password, 10)
     .then((hash) => {
@@ -41,9 +42,12 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
+
   const { email, password } = req.body;
+  console.log(email, password)
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      console.log(user)
       const jwt = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       console.log(jwt)
       res.headers.authorization(jwt)

@@ -35,7 +35,6 @@ function App() {
   // проверка токена
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    console.log("check token")
     if (jwt) { console.log(jwt)
       mestoApi
         .getToken(jwt)
