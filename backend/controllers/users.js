@@ -5,7 +5,7 @@ const {
   NotFoundError
 } = require("../middlewares/errors.js");
 // Эту строчку заменить, ключ должен храниться в файле конфига
-const jwtSecretKey = 'temporarySecretKey'
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -44,7 +44,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const jwt = jwt.sign({ _id: user._id }, jwtSecretKey, { expiresIn: '7d' });
+      const jwt = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       console.log(jwt)
       res.headers.authorization(jwt)
 

@@ -81,9 +81,10 @@ class Api {
 
   // получение токена
   getToken(token){
-
+    console.log(token)
   return fetch(`${this._url}/users/me`, {
     method: "GET",
+    mode: "no-cors",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}`,
@@ -91,10 +92,12 @@ class Api {
   })
     .then((res) => {
       if (!res.ok) {
+        console.log(res);
         return res.json().then((err) => {
           throw new Error(err.message);
         });
       }
+
       return res.json();
     })
     .then((data) => data)

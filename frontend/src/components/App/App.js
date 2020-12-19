@@ -32,19 +32,6 @@ function App() {
   const [authPopupContent, setAuthPopupContent] = useState({});
   const [infoTooltipVisible, setInfoTooltipVisible] = useState(false);
   const history = useHistory();
-
-  React.useEffect(() => {
-    mestoApi
-      .getPageData()
-      .then(([profileData, initialCards]) => {
-        setCurrentUser(profileData);
-        setCards(initialCards);
-      })
-      .catch((err) =>
-        console.error(`Ошибка при загрузке данных пользователя ${err}`)
-      );
-  }, []);
-
   // проверка токена
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -59,7 +46,20 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, [loggedIn, history]);
+  }, [loggedIn, history])
+  React.useEffect(() => {
+    mestoApi
+      .getPageData()
+      .then(([profileData, initialCards]) => {
+        setCurrentUser(profileData);
+        setCards(initialCards);
+      })
+      .catch((err) =>
+        console.error(`Ошибка при загрузке данных пользователя ${err}`)
+      );
+  }, []);
+
+
 
   // Регистрация
   function handleSignup(password, email) {
