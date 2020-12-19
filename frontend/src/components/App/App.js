@@ -64,7 +64,7 @@ function App() {
   // Регистрация
   function handleSignup(password, email) {
     mestoApi
-      .signUp(escape(password), email)
+      .signUp(password, email)
       .then(() => {
         setAuthPopupContent({
           imageSrc: authSucsess,
@@ -88,7 +88,7 @@ function App() {
   // авторизация
   function handleSignin(password, email) {
     mestoApi
-      .signIn(escape(password), email)
+      .signIn(password, email)
       .then((data) => {
         setEmail(data.email);
         setLoggedIn(true);
