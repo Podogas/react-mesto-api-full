@@ -165,7 +165,7 @@ signIn(password, email) {
 }
 
 const mestoApi = new Api({
-  baseUrl: "http://api.podogas.students.nomoreparties.space",
+  baseUrl: "https://api.podogas.students.nomoreparties.space",
   headers: {
     "Content-Type": "application/json",
     "authorization" : `Bearer ${localStorage.getItem('jwt')}`
