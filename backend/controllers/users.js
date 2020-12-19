@@ -44,17 +44,17 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, jwtSecretKey, { expiresIn: '7d' });
-      res.cookie('JWT', token, { maxAge: 60*60*24*7, httpOnly: true })
+      const jwt = jwt.sign({ _id: user._id }, jwtSecretKey, { expiresIn: '7d' });
+      console.log(jwt)
+      res.headers.authorization(jwt)
 
     })
-    .end()
     .catch(next);
 };
 
 
 module.exports.getProfile = (req, res) => {
-  return req.user;
+  res.status(200).send(req.user);
 }
 
 

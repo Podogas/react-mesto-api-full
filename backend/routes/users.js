@@ -11,11 +11,7 @@ const {
 } = require('../controllers/users');
 
 users.get('/users', getUsers);
-users.get('/users/:_id',  celebrate({
-  params: Joi.object().keys({
-    _id: Joi.string().alphanum().length(24),
-  }),
-}), getUserById);
+
 users.get('/users/me', getProfile);
 users.patch('/users/me', celebrate({
   body: Joi.object().keys({
@@ -28,4 +24,9 @@ users.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(linkRegExp),
   }).unknown(true),
 }), updateAvatar);
+users.get('/users/:_id',  celebrate({
+  params: Joi.object().keys({
+    _id: Joi.string().alphanum().length(24),
+  }),
+}), getUserById);
 module.exports = users;

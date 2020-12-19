@@ -4,7 +4,8 @@ const { UnauthorizedError } = require("../middlewares/errors.js");
 const jwtSecretKey = "temporarySecretKey";
 
 module.exports = (req, res, next) => {
-  const { authorization } = req.cookies;
+  const  authorization  = req.headers.authorization;
+
 
   if (!authorization || !authorization.startsWith("Bearer ")) {
     throw new UnauthorizedError("Необходима авторизация");
@@ -14,6 +15,7 @@ module.exports = (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, jwtSecretKey);
+
   } catch (err) {
     throw new UnauthorizedError("Необходима авторизация");
   }

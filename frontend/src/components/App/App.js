@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import mestoApi from "../../utils/Api.js";
-import * as auth from "../../utils/authApi.js";
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
 import Footer from "../Footer/Footer.js";
@@ -51,7 +50,7 @@ function App() {
     const jwt = localStorage.getItem("jwt");
     console.log("check token")
     if (jwt) { console.log(jwt)
-      auth
+      mestoApi
         .getToken(jwt)
         .then((res) => {
           setLoggedIn(true);
@@ -64,7 +63,7 @@ function App() {
 
   // Регистрация
   function handleSignup(password, email) {
-    auth
+    mestoApi
       .signUp(escape(password), email)
       .then(() => {
         setAuthPopupContent({
@@ -88,7 +87,7 @@ function App() {
 
   // авторизация
   function handleSignin(password, email) {
-    auth
+    mestoApi
       .signIn(escape(password), email)
       .then((data) => {
         setEmail(data.email);
