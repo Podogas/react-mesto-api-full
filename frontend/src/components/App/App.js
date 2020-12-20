@@ -79,6 +79,7 @@ function App() {
     mestoApi
       .signIn(password, email)
       .then((data) => {
+        console.log(data)
         setEmail(data.email);
         setLoggedIn(true);
         history.push("/");

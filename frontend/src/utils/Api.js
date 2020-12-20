@@ -15,6 +15,29 @@ class Api {
       return Promise.reject(new Error(res.status));
     }
   }
+
+    // получение токена
+  getToken(token){
+  return fetch(`${this._url}/users/me`, {
+    method: "GET",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log(res);
+        return res.json().then((err) => {
+          throw new Error(err.message);
+        });
+      }
+
+      return res.json();
+    })
+    .then((data) => {return data})
+} 
   /*
 метод для получения массива всех карточек с сервера
  */
@@ -79,29 +102,7 @@ class Api {
 
 
 
-  // получение токена
-  getToken(token){
-    console.log(token)
-  return fetch(`${this._url}/users/me`, {
-    method: "GET",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        console.log(res);
-        return res.json().then((err) => {
-          throw new Error(err.message);
-        });
-      }
-
-      return res.json();
-    })
-    .then((data) => {return data})
-}  
+ 
 // регистрация
 signUp(password, email){
   return fetch(`${this._url}/signup`, {
@@ -126,7 +127,7 @@ signUp(password, email){
 // авторизация
 signIn(password, email) {
   console.log(JSON.stringify({ password, email }))
-  fetch(`${this._url}/signin`, {
+    return fetch(`${this._url}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -147,6 +148,7 @@ signIn(password, email) {
       if (data.token) {
         localStorage.setItem("jwt", data.token);
       }
+
         return data;
       
     });
@@ -170,7 +172,7 @@ signIn(password, email) {
 }
 /*https://api.podogas.students.nomoreparties.space*/
 const mestoApi = new Api({
-  baseUrl: "http://localhost:3000",
+  baseUrl: "http://localhost:3001",
   headers: {
     "Content-Type": "application/json",
     "authorization" : `Bearer ${localStorage.getItem('jwt')}`

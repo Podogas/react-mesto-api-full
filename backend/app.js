@@ -16,7 +16,7 @@ const {
 } = require("./middlewares/errors.js");
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const cors = require('cors');
 const app = express();
 mongoose.connect("mongodb://localhost:27017/mestodb", {
@@ -25,7 +25,14 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+app.options('*', function (req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.end();
+});
 app.use('*', cors())
+
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(bodyParser.json());
