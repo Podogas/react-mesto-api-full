@@ -16,10 +16,10 @@ const {
 } = require("./middlewares/errors.js");
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 app.use('*', cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://podogas.students.nomoreparties.space',
   credentials: true,
 }));
 mongoose.connect("mongodb://localhost:27017/mestodb", {
