@@ -17,7 +17,6 @@ const {
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
-const cors = require('cors');
 const app = express();
 mongoose.connect("mongodb://localhost:27017/mestodb", {
   useNewUrlParser: true,
@@ -31,7 +30,7 @@ app.options('*', function (req, res) {
   res.setHeader("Access-Control-Allow-Headers", "*");
   res.end();
 });
-app.use('*', cors())
+
 
 app.use(cookieParser());
 app.use(requestLogger);
