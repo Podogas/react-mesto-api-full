@@ -172,7 +172,7 @@ signIn(password, email) {
 }
 /*https://api.podogas.students.nomoreparties.space*/
 const mestoApi = new Api({
-  baseUrl: "http://localhost:3001",
+  baseUrl: "https://api.podogas.students.nomoreparties.space",
   headers: {
     "Content-Type": "application/json",
     "authorization" : `Bearer ${localStorage.getItem('jwt')}`
