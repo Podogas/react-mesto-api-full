@@ -46,17 +46,7 @@ function App() {
         .catch((err) => console.log(err));
     }
   }, [loggedIn, history])
-  React.useEffect(() => {
-    mestoApi
-      .getPageData()
-      .then(([profileData, initialCards]) => {
-        setCurrentUser(profileData);
-        setCards(initialCards);
-      })
-      .catch((err) =>
-        console.error(`Ошибка при загрузке данных пользователя ${err}`)
-      );
-  }, []);
+
 
 
 
@@ -95,6 +85,18 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
+
+    React.useEffect(() => {
+    mestoApi
+      .getPageData()
+      .then(([profileData, initialCards]) => {
+        setCurrentUser(profileData);
+        setCards(initialCards);
+      })
+      .catch((err) =>
+        console.error(`Ошибка при загрузке данных пользователя ${err}`)
+      );
+  }, []);
 
   // выход
   function handleSignOut() {

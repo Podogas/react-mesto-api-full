@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const {
   NotFoundError
 } = require("../middlewares/errors.js");
-// Эту строчку заменить, ключ должен храниться в файле конфига
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
@@ -42,16 +42,15 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-
-  const { email, password } = req.body;
   console.log(email, password)
+  const { email, password } = req.body;
+
   return User.findUserByCredentials(email, password)
     .then((user) => {
       console.log(user)
       const jwt = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       console.log(jwt)
-      res.headers.authorization(jwt)
-
+      res.headers.authorization(jwt).send({ data: {...user.toJSON(), token} });
     })
     .catch(next);
 };

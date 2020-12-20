@@ -3,7 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const { UnauthorizedError } = require("../middlewares/errors.js");
 
-const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/g;
+const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 const validateEmail = (email) => validator.isEmail(email);
 const userSchema = new mongoose.Schema({
   name: {
@@ -64,7 +64,7 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           ).catch()
         }
         return user
-        ;
+
       });
     });
 };

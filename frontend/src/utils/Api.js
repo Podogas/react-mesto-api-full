@@ -134,7 +134,7 @@ signIn(password, email) {
     body: JSON.stringify({ password, email }),
   })
     .then((res) => {
-
+      console.log(res)
       if (res.status === 400) {
         throw new Error("Не передано одно из полей");
       } else if (res.status === 401) {
@@ -143,10 +143,12 @@ signIn(password, email) {
       return res;
     })
     .then((data) => {
+      console.log(data)
       if (data.token) {
         localStorage.setItem("jwt", data.token);
-        return data.token;
       }
+        return data;
+      
     });
 }
 
@@ -166,9 +168,9 @@ signIn(password, email) {
 
 
 }
-
+/*https://api.podogas.students.nomoreparties.space*/
 const mestoApi = new Api({
-  baseUrl: "https://api.podogas.students.nomoreparties.space",
+  baseUrl: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
     "authorization" : `Bearer ${localStorage.getItem('jwt')}`
