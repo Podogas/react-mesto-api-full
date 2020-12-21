@@ -19,10 +19,10 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 /*https://podogas.students.nomoreparties.space*/
-app.use('*', cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.header('origin') );
+  next();
+});
 mongoose.connect("mongodb://localhost:27017/mestodb", {
   useNewUrlParser: true,
   useCreateIndex: true,
