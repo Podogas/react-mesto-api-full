@@ -18,8 +18,9 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
+/*https://podogas.students.nomoreparties.space*/
 app.use('*', cors({
-  origin: 'https://podogas.students.nomoreparties.space',
+  origin: 'http://localhost:3000',
   credentials: true,
 }));
 mongoose.connect("mongodb://localhost:27017/mestodb", {
@@ -40,6 +41,10 @@ app.use("/", authRoutes);
 app.use(auth);
 app.use("/", usersRoutes);
 app.use("/", cardsRoutes);
+
+app.all('/*', () => {
+  throw new NotFoundError('Запрашиваемый ресурс не найден');
+});
 app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
@@ -48,6 +53,5 @@ app.use((err, req, res, next) => {
     message: statusCode === 500 ? "На сервере произошла ошибка" : message,
   });
 });
-
 app.listen(PORT, () => {});
 console.log(`app runing on port ${PORT}`)

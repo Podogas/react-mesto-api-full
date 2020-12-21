@@ -105,6 +105,7 @@ class Api {
  
 // регистрация
 signUp(password, email){
+  
   return fetch(`${this._url}/signup`, {
     method: "POST",
     headers: {

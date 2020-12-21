@@ -3,7 +3,8 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const {
-  NotFoundError
+  NotFoundError,
+  ConflictError
 } = require("../middlewares/errors.js");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -24,21 +25,25 @@ module.exports.getUserById = (req, res, next) => {
     .catch(next);
 };
 module.exports.createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const { email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => {
       User.create({
-        name,
-        about,
-        avatar,
+
         email,
         password: hash,
       });
     })
 
     .then((user) => res.send(user))
-    .catch(next);
+    .catch((err) =>{
+      if (err.code === 11000) {
+        const error = new ConflictError('Пользователь с данным e-mail уже зарегистрирован');
+        next(error);
+      }
+      next(err);
+    });
 };
 
 

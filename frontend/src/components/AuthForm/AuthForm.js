@@ -4,16 +4,36 @@ import React from "react";
 function AuthForm({ name, title, children, onSubmit}) {
   const emailRef = React.useRef();
   const passRef = React.useRef();
+  const [validity, setValidity] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   function handleValidation() {
     setErrorMessage({
       emailErr: emailRef.current.validationMessage,
       passErr: passRef.current.validationMessage,
     });
+    if(emailRef.current.validity.valid && passRef.current.validity.valid) {
+      if(!passRef.current.value.includes(' ')){
+        setValidity(true)
+      } else {
+        setValidity(false);
+        setErrorMessage({
+      emailErr: emailRef.current.validationMessage,
+      passErr: 'Пароль не может содержать пробел',
+    });
+      }
+    } 
+    else{
+      setValidity(false)
+    }
   }
   function submit(e) {
     e.preventDefault();
-    onSubmit(passRef.current.value , emailRef.current.value)
+    if(validity){
+      onSubmit(passRef.current.value , emailRef.current.value)
+    }
+    
+
+
   }
   return (
     <section className={"authForm"}>

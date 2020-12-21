@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const {NotFoundError} = require('../middlewares/errors.js')
+const {NotFoundError, ForbiddenError} = require('../middlewares/errors.js')
 // get
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -16,17 +16,21 @@ module.exports.createCard = (req, res, next) => {
     .catch(next);
 };
 // delete
+
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndDelete(req.params._id)
+  Card.findById(req.params._id)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Такой карточки нет');
       }
-      return res.send(card);
+      if (card.owner.toString() !== req.user._id.toString()) {
+        throw new ForbiddenError('Доступ запрещен');
+      }
+      Card.findByIdAndRemove(req.params._id)
+        .then((deletedCard) => res.send(deletedCard));
     })
     .catch(next);
 };
-
 module.exports.putLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params._id,
