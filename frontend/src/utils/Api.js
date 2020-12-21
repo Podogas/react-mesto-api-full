@@ -1,5 +1,3 @@
-
-
 class Api {
   constructor(config) {
     this._url = config.baseUrl;
@@ -16,28 +14,27 @@ class Api {
     }
   }
 
-    // получение токена
-  getToken(token){
-  return fetch(`${this._url}/users/me`, {
-    method: "GET",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        console.log(res);
-        return res.json().then((err) => {
-          throw new Error(err.message);
-        });
-      }
-
-      return res.json();
+  // получение токена
+  getToken(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .then((data) => {return data})
-} 
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            throw new Error(err.message);
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        return data;
+      });
+  }
   /*
 метод для получения массива всех карточек с сервера
  */
@@ -56,8 +53,14 @@ class Api {
       method: "GET",
     }).then((res) => this._checkResponse(res));
   }
-  getPageData() {
-    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+  getMyInfo(_id) {
+    return fetch(` ${this._url}/users/${_id}`, {
+      headers: this._headers,
+      method: "GET",
+    }).then((res) => this._checkResponse(res));
+  }
+  getPageData(_id) {
+    return Promise.all([this.getMyInfo(_id), this.getInitialCards()]);
   }
   patchUserInfo(dataToPatch) {
     return fetch(` ${this._url}/users/me`, {
@@ -86,7 +89,7 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
   like(cardId, method) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
       headers: this._headers,
       method: method,
     }).then((res) => this._checkResponse(res));
@@ -99,85 +102,58 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-
-
-
- 
-// регистрация
-signUp(password, email){
-  
-  return fetch(`${this._url}/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  }).then((res) => {
-    if (!res.ok) {
-      if (res.status === 400) {
-        throw new Error("Не передано одно из полей");
-      }
-      return res.json().then((err) => {
-        throw new Error(err.message);
-      });
-    }
-    console.log(res)
-    return res;
-  });
-}
-// авторизация
-signIn(password, email) {
-  console.log(JSON.stringify({ password, email }))
-    return fetch(`${this._url}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  })
-    .then((res) => {
-      console.log(res)
-      if (res.status === 400) {
-        throw new Error("Не передано одно из полей");
-      } else if (res.status === 401) {
-        throw new Error("Пользователь с таким email не найден");
+  // регистрация
+  signUp(password, email) {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password, email }),
+    }).then((res) => {
+      if (!res.ok) {
+        if (res.status === 400) {
+          throw new Error("Не передано одно из полей");
+        }
+        return res.json().then((err) => {
+          throw new Error(err.message);
+        });
       }
       return res;
-    })
-    .then((data) => {
-      console.log(data)
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
-      }
-
-        return data;
-      
     });
-}
+  }
+  // авторизация
+  signIn(password, email) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password, email }),
+    })
+      .then((res) => {
+        if (res.status === 400) {
+          throw new Error("Не передано одно из полей");
+        } else if (res.status === 401) {
+          throw new Error("Пользователь с таким email не найден");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.data.token) {
+          localStorage.setItem("jwt", data.data.token);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return data.data;
+      });
+  }
 }
 /*https://api.podogas.students.nomoreparties.space*/
 const mestoApi = new Api({
   baseUrl: "https://api.podogas.students.nomoreparties.space",
   headers: {
     "Content-Type": "application/json",
-    "authorization" : `Bearer ${localStorage.getItem('jwt')}`
-
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
   },
-})
+});
 export default mestoApi;

@@ -1,5 +1,6 @@
 const users = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+
 const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 
 const {
@@ -24,7 +25,7 @@ users.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(linkRegExp),
   }).unknown(true),
 }), updateAvatar);
-users.get('/users/:_id',  celebrate({
+users.get('/users/:_id', celebrate({
   params: Joi.object().keys({
     _id: Joi.string().alphanum().length(24),
   }),

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const {
   UnauthorizedError,
-  NotFoundError
-} = require("../middlewares/errors.js");
+  NotFoundError,
+} = require('../middlewares/errors.js');
 
 const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 const cardSchema = new mongoose.Schema({
@@ -39,19 +39,18 @@ const cardSchema = new mongoose.Schema({
 
 });
 
-cardSchema.static.ownerCardDeletion = function(cardId, ownerId) {
-  return ( this.findById(cardId)
+cardSchema.static.ownerCardDeletion = function (cardId, ownerId) {
+  return (this.findById(cardId)
     .then((card) => {
-      if(!card) {
-        return Promise.reject(new NotFoundError("Карточка не найдена"));
+      if (!card) {
+        return Promise.reject(new NotFoundError('Карточка не найдена'));
       }
-      if(card.owner._id === userId) {
-        return card.remove()
+      if (card.owner === ownerId) {
+        return card.remove();
       }
-      return Promise.reject(new UnauthorizedError("Нет прав для удаления"));
+      return Promise.reject(new UnauthorizedError('Нет прав для удаления'));
     })
-    )
-
-}
+  );
+};
 
 module.exports = mongoose.model('card', cardSchema);

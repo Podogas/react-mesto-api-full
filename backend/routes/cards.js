@@ -1,6 +1,7 @@
 const cardsRouter = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-Joi.objectId = require('joi-objectid')(Joi)
+Joi.objectId = require('joi-objectid')(Joi);
+
 const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 
 const {

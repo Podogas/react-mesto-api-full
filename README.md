@@ -1,3 +1,2 @@
-https://podogas.students.nomoreparties.space/sign-up
-
-у меня ничего не получилось, это можно не смотреть
+# [Mesto](https://podogas.students.nomoreparties.space/ "Mesto")
+очень много проблем, но время уже кончилось, так что на всякий случай скину, по крайней мере я сделал все что мог.

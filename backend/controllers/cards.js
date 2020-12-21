@@ -1,9 +1,9 @@
 const Card = require('../models/card');
-const {NotFoundError, ForbiddenError} = require('../middlewares/errors.js')
+const { NotFoundError, ForbiddenError } = require('../middlewares/errors.js');
 // get
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 

@@ -26,7 +26,7 @@ function App() {
     false
   );
   const [selectedCard, setSelectedCard] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({_id: 'none'});
   const [cardToDelete, setCardToDelete] = useState({});
   const [cards, setCards] = useState([]);
   const [authPopupContent, setAuthPopupContent] = useState({});
@@ -35,26 +35,43 @@ function App() {
   // проверка токена
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    if (jwt) { console.log(jwt)
+    if (jwt) {
+      
       mestoApi
         .getToken(jwt)
         .then((res) => {
-          setLoggedIn(true);
-          setEmail(res.data.email);
-          history.push("/");
+          mestoApi.getPageData(res._id).then(([profileData, initialCards]) => {
+            setCurrentUser(profileData);
+       
+            setCards(initialCards);
+            setLoggedIn(true);
+            setEmail(profileData.email);
+            history.push("/");
+          });
         })
+
         .catch((err) => console.log(err));
     }
-  }, [loggedIn, history])
+  }, [loggedIn, history]);
 
-
-
+  React.useEffect(() => {
+    mestoApi
+      .getPageData(currentUser._id)
+      .then(([profileData, initialCards]) => {
+        setCurrentUser(profileData);
+        setCards([]);
+      })
+      .catch((err) =>
+        console.error(`Ошибка при загрузке данных пользователя ${err}`)
+      );
+  }, [currentUser._id]);
 
   // Регистрация
   function handleSignup(password, email) {
     mestoApi
       .signUp(password, email)
-      .then(() => {
+      .then((res) => {
+        console.log(res)
         setAuthPopupContent({
           imageSrc: authSucsess,
           alt: "Галочка",
@@ -79,25 +96,12 @@ function App() {
     mestoApi
       .signIn(password, email)
       .then((data) => {
-        console.log(data.body.getReader())
         setEmail(data.email);
         setLoggedIn(true);
         history.push("/");
       })
       .catch((err) => console.log(err));
   }
-
-    React.useEffect(() => {
-    mestoApi
-      .getPageData()
-      .then(([profileData, initialCards]) => {
-        setCurrentUser(profileData);
-        setCards(initialCards);
-      })
-      .catch((err) =>
-        console.error(`Ошибка при загрузке данных пользователя ${err}`)
-      );
-  }, []);
 
   // выход
   function handleSignOut() {
@@ -152,7 +156,7 @@ function App() {
       .catch((err) => console.error(`Ошибка ${err}`));
   };
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     const method = isLiked ? "DELETE" : "PUT";
     mestoApi
       .like(card._id, method)

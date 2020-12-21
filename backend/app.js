@@ -1,57 +1,55 @@
 /*  */
 require('dotenv').config();
-var cors = require('cors')
-const express = require("express");
-const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
+const cors = require('cors');
+const express = require('express');
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const usersRoutes = require("./routes/users.js");
-const cardsRoutes = require("./routes/cards.js");
-const authRoutes = require("./routes/auth.js");
-const auth = require("./middlewares/auth.js");
-const {
-  BadRequestError,
-  UnauthorizedError,
-  NotFoundError
-} = require("./middlewares/errors.js");
 const { errors } = require('celebrate');
+const usersRoutes = require('./routes/users.js');
+const cardsRoutes = require('./routes/cards.js');
+const authRoutes = require('./routes/auth.js');
+const auth = require('./middlewares/auth.js');
+const {
+  NotFoundError,
+} = require('./middlewares/errors.js');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { PORT = 3000 } = process.env;
 const app = express();
-/*https://podogas.students.nomoreparties.space*/
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', req.header('origin') );
-  next();
-});
-mongoose.connect("mongodb://localhost:27017/mestodb", {
+
+mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
-
+app.use('*', cors({
+  origin: 'https://podogas.students.nomoreparties.space',
+  credentials: true,
+}));
 
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(bodyParser.json());
 
-app.use("/", authRoutes);
+app.use('/', authRoutes);
 // ниже вызываем роуты защищенные авторизацией
 app.use(auth);
-app.use("/", usersRoutes);
-app.use("/", cardsRoutes);
+app.use('/', usersRoutes);
+app.use('/', cardsRoutes);
 
 app.all('/*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 app.use(errorLogger);
 app.use(errors());
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
-    message: statusCode === 500 ? "На сервере произошла ошибка" : message,
+    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
   });
 });
 app.listen(PORT, () => {});
-console.log(`app runing on port ${PORT}`)
+console.log(`app runing on port ${PORT}`);
