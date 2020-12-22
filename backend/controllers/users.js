@@ -28,14 +28,24 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         email,
         password: hash,
+      }).catch((err) => {
+        console.log(err);
+        res.send(err);
+        return Promise.reject(
+          new ConflictError('Такой пользователь уже зарегистрирован'),
+        );
       });
     })
 
-    .then((user) => res.send(user))
+    .then((user) => {
+      if (!user) {
+
+      }
+      res.send(user);
+    })
     .catch(next);
 
-
-    /*=> {
+  /*= > {
       if (err.code === 11000) {
         const error = new ConflictError(
           'Пользователь с данным e-mail уже зарегистрирован',
@@ -43,7 +53,7 @@ module.exports.createUser = (req, res, next) => {
         next(error);
       }
       next(err);
-    });*/
+    }); */
 };
 
 module.exports.login = (req, res, next) => {

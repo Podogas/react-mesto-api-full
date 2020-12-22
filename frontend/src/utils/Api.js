@@ -60,6 +60,7 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
   getPageData(_id) {
+    console.log(this._headers);
     return Promise.all([this.getMyInfo(_id), this.getInitialCards()]);
   }
   patchUserInfo(dataToPatch) {
@@ -110,17 +111,22 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ password, email }),
-    }).then((res) => {
-      if (!res.ok) {
-        if (res.status === 400) {
-          throw new Error("Не передано одно из полей");
+    })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 400) {
+            throw new Error("Не передано одно из полей");
+          }
+          if (!res.bodyUsed) {
+            console.warn(res);
+          }
+          return res.json().then((err) => {
+            throw new Error(err.message);
+          });
         }
-        return res.json().then((err) => {
-          throw new Error(err.message);
-        });
-      }
-      return res;
-    });
+        return res;
+      })
+      .catch();
   }
   // авторизация
   signIn(password, email) {
@@ -142,6 +148,10 @@ class Api {
       .then((data) => {
         if (data.data.token) {
           localStorage.setItem("jwt", data.data.token);
+          this._headers = {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          };
         }
 
         return data.data;

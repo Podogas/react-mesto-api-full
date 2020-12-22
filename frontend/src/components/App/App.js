@@ -73,18 +73,20 @@ function App() {
       .then((res) => {
         console.log(res)
         setAuthPopupContent({
-          imageSrc: authSucsess,
-          alt: "Галочка",
-          text: "Вы успешно зарегистрировались",
+          imageSrc: authFail,
+          alt: "Красный крест",
+          text: "Что-то пошло не так! Попробуйте еще раз.",
         });
         history.push("/signin");
       })
       .catch((err) =>
-        setAuthPopupContent({
-          imageSrc: authFail,
-          alt: "Красный крест",
-          text: "Что-то пошло не так! Попробуйте еще раз.",
-        })
+        console.warn(err)
+      /*  setAuthPopupContent({
+          imageSrc: authSucsess,
+          alt: "Галочка",
+          text: "Вы успешно зарегистрировались",
+          
+        })*/
       )
       .finally(() => {
         setInfoTooltipVisible(true);
