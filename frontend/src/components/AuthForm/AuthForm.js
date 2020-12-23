@@ -1,11 +1,12 @@
 import React from "react";
 
 
-function AuthForm({ name, title, children, onSubmit}) {
+function AuthForm({ name, title, children, onSubmit, onValid}) {
   const emailRef = React.useRef();
   const passRef = React.useRef();
   const [validity, setValidity] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+
   function handleValidation() {
     setErrorMessage({
       emailErr: emailRef.current.validationMessage,
@@ -14,7 +15,9 @@ function AuthForm({ name, title, children, onSubmit}) {
     if(emailRef.current.validity.valid && passRef.current.validity.valid) {
       if(!passRef.current.value.includes(' ')){
         setValidity(true)
+        onValid(true)
       } else {
+        onValid(false)
         setValidity(false);
         setErrorMessage({
       emailErr: emailRef.current.validationMessage,
@@ -23,6 +26,7 @@ function AuthForm({ name, title, children, onSubmit}) {
       }
     } 
     else{
+      onValid(false)
       setValidity(false)
     }
   }
@@ -58,6 +62,7 @@ function AuthForm({ name, title, children, onSubmit}) {
             required
             className="authForm__input-item"
             onChange={handleValidation}
+
           />
           <span
             className="authForm__input-error-message"
@@ -74,6 +79,7 @@ function AuthForm({ name, title, children, onSubmit}) {
             required
             className="authForm__input-item"
             onChange={handleValidation}
+            minLength="8"
           />
           <span
             className="authForm__input-error-message"

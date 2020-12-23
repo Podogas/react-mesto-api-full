@@ -3,9 +3,13 @@ import PropTypes from "prop-types";
 import AuthForm from "../AuthForm/AuthForm.js";
 
 function Login({onSubmit}) {
+  const [isValid, setIsValid] = React.useState(true);
+  function onValid(isValid){
+   setIsValid(isValid)
+  }
   return (
-    <AuthForm name="login" title="Вход" onSubmit={onSubmit}>
-      <button type="submit" className="authForm__submit-btn">
+    <AuthForm name="login" title="Вход" onSubmit={onSubmit} onValid={onValid}>
+      <button type="submit" className={`authForm__submit-btn ${isValid ? '' : 'authForm__submit-btn_blocked'}`} >
         Войти
       </button>
       {/*Здесь пустой див для того что бы после переключения на 

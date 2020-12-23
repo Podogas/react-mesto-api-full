@@ -26,7 +26,7 @@ function App() {
     false
   );
   const [selectedCard, setSelectedCard] = useState(false);
-  const [currentUser, setCurrentUser] = useState({_id: 'none'});
+  const [currentUser, setCurrentUser] = useState({});
   const [cardToDelete, setCardToDelete] = useState({});
   const [cards, setCards] = useState([]);
   const [authPopupContent, setAuthPopupContent] = useState({});
@@ -36,57 +36,52 @@ function App() {
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      
-      mestoApi
-        .getToken(jwt)
-        .then((res) => {
-          mestoApi.getPageData(res._id).then(([profileData, initialCards]) => {
-            setCurrentUser(profileData);
-       
-            setCards(initialCards);
-            setLoggedIn(true);
-            setEmail(profileData.email);
-            history.push("/");
-          });
-        })
-
-        .catch((err) => console.log(err));
+      mestoApi.getToken(jwt).then((res) => {
+        mestoApi.getPageData(res._id).then(([profileData, initialCards]) => {
+          setCurrentUser(profileData);
+          setCards(initialCards);
+          setLoggedIn(true);
+          setEmail(profileData.email);
+          history.push("/");
+        });
+      });
     }
   }, [loggedIn, history]);
 
   React.useEffect(() => {
-    mestoApi
-      .getPageData(currentUser._id)
-      .then(([profileData, initialCards]) => {
-        setCurrentUser(profileData);
-        setCards([]);
-      })
-      .catch((err) =>
-        console.error(`Ошибка при загрузке данных пользователя ${err}`)
-      );
+    if (currentUser._id) {
+      mestoApi
+        .getPageData(currentUser._id)
+        .then(([profileData, initialCards]) => {
+          setCurrentUser(profileData);
+          setCards(initialCards);
+        })
+        .catch((err) =>
+          console.error(`Ошибка при загрузке данных пользователя ${err}`)
+        );
+    }
   }, [currentUser._id]);
 
   // Регистрация
+ 
   function handleSignup(password, email) {
     mestoApi
       .signUp(password, email)
       .then((res) => {
-        console.log(res)
         setAuthPopupContent({
+          imageSrc: authSucsess,
+          alt: "Галочка",
+          text: "Вы успешно зарегистрировались!",
+        });
+        history.push("/signin");
+      })
+      .catch((err) => {
+         setAuthPopupContent({
           imageSrc: authFail,
           alt: "Красный крест",
           text: "Что-то пошло не так! Попробуйте еще раз.",
         });
-        history.push("/signin");
-      })
-      .catch((err) =>
-        console.warn(err)
-      /*  setAuthPopupContent({
-          imageSrc: authSucsess,
-          alt: "Галочка",
-          text: "Вы успешно зарегистрировались",
-          
-        })*/
+        }
       )
       .finally(() => {
         setInfoTooltipVisible(true);
@@ -205,10 +200,10 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardConfirmDeletion}
           />
-          <Route path="/sign-in">
+          <Route exact path="/sign-in">
             <Login onSubmit={handleSignin} />
           </Route>
-          <Route path="/sign-up">
+          <Route exact path="/sign-up">
             <Register onSubmit={handleSignup} />
           </Route>
           <Route>

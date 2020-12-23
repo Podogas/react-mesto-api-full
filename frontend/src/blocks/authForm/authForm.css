@@ -3,6 +3,7 @@
 @import url('./__input-item/authForm__input-item.css');
 @import url('./__window/authForm__window.css');
 @import url('./__submit-btn/authForm__submit-btn.css');
+@import url('./__submit-btn/_blocked/authForm__submit-btn_blocked.css');
 @import url('./__caption-link/authForm__caption-link.css');
 @import url('./__input-error-message/authForm__input-error-message.css');
 

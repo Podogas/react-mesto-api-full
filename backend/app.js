@@ -25,10 +25,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 /* https://podogas.students.nomoreparties.space */
-app.use('*', cors({
-  origin: 'https://podogas.students.nomoreparties.space',
-  credentials: true,
-}));
+app.use('*', cors());
 
 app.use(cookieParser());
 app.use(requestLogger);

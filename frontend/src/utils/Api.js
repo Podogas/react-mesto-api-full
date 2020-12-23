@@ -60,9 +60,10 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
   getPageData(_id) {
-    console.log(this._headers);
-    return Promise.all([this.getMyInfo(_id), this.getInitialCards()]);
-  }
+    if(!!_id){
+      return Promise.all([this.getMyInfo(_id), this.getInitialCards()])
+    }
+      }
   patchUserInfo(dataToPatch) {
     return fetch(` ${this._url}/users/me`, {
       headers: this._headers,
@@ -113,20 +114,13 @@ class Api {
       body: JSON.stringify({ password, email }),
     })
       .then((res) => {
-        if (!res.ok) {
-          if (res.status === 400) {
+        if (res.status === 400) {
             throw new Error("Не передано одно из полей");
+          } else if (res.status === 409) {
+            throw new Error("Такая учетная запись уже существует");
           }
-          if (!res.bodyUsed) {
-            console.warn(res);
-          }
-          return res.json().then((err) => {
-            throw new Error(err.message);
-          });
-        }
-        return res;
+          return res.json()
       })
-      .catch();
   }
   // авторизация
   signIn(password, email) {
@@ -139,9 +133,9 @@ class Api {
     })
       .then((res) => {
         if (res.status === 400) {
-          throw new Error("Не передано одно из полей");
-        } else if (res.status === 401) {
           throw new Error("Пользователь с таким email не найден");
+        } else if (res.status === 401) {
+          throw new Error("Неправильно введены данные");
         }
         return res.json();
       })
