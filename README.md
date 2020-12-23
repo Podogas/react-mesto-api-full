@@ -1,2 +1,9 @@
-# [Mesto](https://podogas.students.nomoreparties.space/ "Mesto")
+# [podogas.students.nomoreparties.space](https://podogas.students.nomoreparties.space/ "Mesto")
 очень много проблем, но, поскольку время уже кончилось то на всякий случай скину, по крайней мере я сделал все что мог.
+![Интерфейс](./podogas_mesto.png)
+
+## Фиксы
+* обрботка ошибок
+* рефакторинг и структуризация кода
+* прописать комментарии к коду
+* отдавать Jwt в куки
