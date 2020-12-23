@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { UnauthorizedError } = require('./errors.js');
+const UnauthorizedError = require('../errors/Unauthorized');
 // Эту строчку заменить, ключ должен храниться в файле конфига
 const { NODE_ENV, JWT_SECRET } = process.env;
 

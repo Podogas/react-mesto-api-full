@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { UnauthorizedError } = require('../middlewares/errors.js');
+const UnauthorizedError = require('../errors/Unauthorized.js');
 
 const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 const validateEmail = (email) => validator.isEmail(email);
+const passRegExp = /^\S*$/;
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return linkRegExp.test(v);
       },
+      message: props => `${props.value} Ссылка некорректна!`
     },
   },
   email: {
@@ -43,10 +44,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
     select: false,
+    validate: {
+      validator(v) {
+        return passRegExp.test(v);
+      },
+      message: props => `${props.value} В пароле нельзя использовать пробелы!`
+    },
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function findUser(email, password) {
   return this.findOne({ email })
     .select('+password')
     .then((user) => {

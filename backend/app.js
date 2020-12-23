@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
+const rateLimit = require("express-rate-limit");
+
 const usersRoutes = require('./routes/users.js');
 const cardsRoutes = require('./routes/cards.js');
 const authRoutes = require('./routes/auth.js');
 const auth = require('./middlewares/auth.js');
-const {
-  NotFoundError,
-} = require('./middlewares/errors.js');
+const NotFoundError = require('./errors/Not-found.js');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
@@ -25,8 +26,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 /* https://podogas.students.nomoreparties.space */
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use(limiter);
 app.use('*', cors());
-
+app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(bodyParser.json());
@@ -49,4 +55,3 @@ app.use((err, req, res) => {
   });
 });
 app.listen(PORT, () => {});
-console.log(`app runing on port ${PORT}`);

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const {
-  UnauthorizedError,
-  NotFoundError,
-} = require('../middlewares/errors.js');
+const UnauthorizedError = require('../errors/Unauthorized.js');
+const NotFoundError = require('../errors/Not-found.js');
 
 const linkRegExp = /^https?:\/\/(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]*/;
 const cardSchema = new mongoose.Schema({
@@ -39,7 +37,7 @@ const cardSchema = new mongoose.Schema({
 
 });
 
-cardSchema.static.ownerCardDeletion = function (cardId, ownerId) {
+cardSchema.static.ownerCardDeletion = function deleteCard(cardId, ownerId) {
   return (this.findById(cardId)
     .then((card) => {
       if (!card) {
