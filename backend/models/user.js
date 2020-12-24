@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return linkRegExp.test(v);
       },
-      message: props => `${props.value} Ссылка некорректна!`
+      message: (props) => `${props.value} Ссылка некорректна!`,
     },
   },
   email: {
@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return passRegExp.test(v);
       },
-      message: props => `${props.value} В пароле нельзя использовать пробелы!`
+      message: (props) => `${props.value} В пароле нельзя использовать пробелы!`,
     },
   },
 });
