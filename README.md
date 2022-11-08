@@ -1,4 +1,4 @@
-# [podogas.students.nomoreparties.space](https://mesto.podogas.com/ "Mesto")
+# [mesto.podogas.com](https://mesto.podogas.com/ "Mesto")
 ![Интерфейс](./podogas-mesto.png)
 
 В приложении очень много проблемных мест вот список некоторых необходимых фиксов
